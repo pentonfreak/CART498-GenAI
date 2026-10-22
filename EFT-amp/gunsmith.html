@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Escape from Tarkov Gunsmith task index with weapon targets, progression, and build verification steps." />
+  <title>Gunsmith Task Guide — RAIDLINE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .guide{max-width:1080px;margin:auto;padding:80px 7vw 100px}.guide h1{font-size:clamp(48px,7vw,84px)}
+    .guide-intro{max-width:690px;color:var(--muted);line-height:1.7;margin:25px 0 30px}
+    .guide-back{display:inline-block;color:var(--acid);font:11px var(--mono);margin-bottom:34px;text-decoration:none}
+    .patch-note{padding:18px 20px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:12px;line-height:1.6;margin:26px 0 40px}
+    .patch-note strong{color:var(--acid)}.task-tools{display:flex;gap:12px;align-items:center;margin:25px 0}
+    .task-tools input{flex:1;min-width:200px;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:13px;font:12px var(--mono)}
+    .task-tools output{font:10px var(--mono);color:var(--muted)}
+    .task-section{margin:50px 0}.task-section h2{font-size:34px;letter-spacing:-.04em;margin:0 0 8px}
+    .task-section>p{font-size:12px;color:var(--muted);line-height:1.6;margin:0 0 20px}
+    .task-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .task-card{border:1px solid var(--line);background:var(--panel);padding:0}
+    .task-card summary{cursor:pointer;list-style:none;padding:18px;display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center}
+    .task-card summary::-webkit-details-marker{display:none}.task-card summary:after{content:'+';color:var(--acid);font:20px var(--mono)}
+    .task-card[open] summary:after{content:'−'}.task-num{color:var(--acid);font:10px var(--mono)}
+    .task-title{font-size:15px;font-weight:600}.task-target{display:block;color:var(--muted);font:10px var(--mono);margin-top:5px}
+    .task-level{color:var(--orange);font:9px var(--mono);white-space:nowrap}
+    .task-content{padding:0 18px 19px 72px;color:var(--muted);font-size:12px;line-height:1.65}
+    .task-content ol{padding-left:17px}.task-content a,.source-list a{color:var(--acid)}
+    .task-empty{display:none;color:var(--muted);font:12px var(--mono);padding:20px 0}
+    .source-list{border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:11px;line-height:1.7}
+    @media(max-width:700px){.guide{padding-top:55px}.task-list{grid-template-columns:1fr}.task-tools{align-items:stretch;flex-direction:column}.task-card summary{grid-template-columns:32px 1fr auto}.task-content{padding-left:62px}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">+</span><span>RAID<span>LINE</span></span></a>
+    <div class="status"><i></i> TASK INDEX <span class="slash">/</span> MECHANIC</div>
+    <nav id="primaryNav"><a href="index.html#maps">Maps</a><a href="index.html#loadout">Raid prep</a><a href="gunsmith.html" aria-current="page">Gunsmith</a></nav>
+    <button class="menu-btn" id="menuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primaryNav">☰</button>
+  </header>
+  <main class="guide">
+    <a class="guide-back" href="index.html">← BACK TO RAIDLINE</a>
+    <p class="eyebrow"><span>04</span> BUILD WORKSHOP</p>
+    <h1>Gunsmith<br /><em>task guide.</em></h1>
+    <p class="guide-intro">Find the weapon for each Mechanic Gunsmith task, follow the chain, then verify every attachment and stat in the current in-game task description before handing it in. Expand a task for a build checklist.</p>
+    <div class="patch-note"><strong>Data checked against patch 1.1.5.0 (September 2026).</strong> The task lineup and weapon targets below reflect the current community task index. Exact part requirements and weapon stats can change with patches; use the linked task data and the in-game inspection and turn-in screens as the final check.</div>
+    <div class="task-tools"><input id="taskSearch" type="search" placeholder="Search a task or weapon..." aria-label="Search Gunsmith tasks" /><output id="taskCount" aria-live="polite"></output></div>
+    <section class="task-section" aria-labelledby="standardHeading">
+      <h2 id="standardHeading">Gunsmith by weapon</h2>
+      <p>Thirteen separate tasks, each centered on a specific firearm. Availability varies by player level and progression.</p>
+      <div class="task-list" id="weaponTasks"></div>
+    </section>
+    <section class="task-section" aria-labelledby="masterHeading">
+      <h2 id="masterHeading">Gunsmith Master</h2>
+      <p>Thirteen sequential builds, available from level 40. Each part unlocks the next in the chain.</p>
+      <div class="task-list" id="masterTasks"></div>
+    </section>
+    <p class="task-empty" id="taskEmpty">No Gunsmith tasks match that search.</p>
+    <div class="source-list"><strong>Sources and current checks</strong><br />Task names, target weapons, levels, and prerequisites: <a href="https://tarkovhub.fr/dossiers/quetes-armurier" target="_blank" rel="noreferrer">TarkovHub Gunsmith task index</a> and <a href="https://tarkov.dev/tasks/" target="_blank" rel="noreferrer">Tarkov.dev task data</a>. Example current part list: <a href="https://tarkovforge.web.app/task-guide/gunsmith-master-part-1" target="_blank" rel="noreferrer">TarkovForge Gunsmith Master Part 1</a>.<br />For each build: read the objective, assemble the named base weapon, satisfy all listed attachments and stats at once, inspect the finished weapon, then submit without selling or disassembling it first.</div>
+  </main>
+  <footer><div class="brand"><span class="brand-mark">+</span><span>RAID<span>LINE</span></span></div><p>A fan-made field guide for Tarkov players.<br />Free to use. Built for the next raid.</p><span class="footer-code">RL-016 / GUNSMITH</span></footer>
+  <script>
+    const weaponTasks = [
+      ['AK-105', 'AK-105', 1, 'gunsmith-ak-105'], ['AKS-74N', 'AKS-74N', 1, 'gunsmith-aks-74n'], ['AKS-74U', 'AKS-74U', 1, 'gunsmith-aks-74u'],
+      ['HK MP5', 'MP5', 1, 'gunsmith-hk-mp5'], ['Model 870', 'M870', 1, 'gunsmith-model-870'], ['MP-133', 'MP-133', 1, 'gunsmith-mp-133'],
+      ['MPX', 'MPX', 1, 'gunsmith-mpx'], ['OP-SKS', 'OP-SKS', 1, 'gunsmith-op-sks'], ['P226R', 'P226R', 1, 'gunsmith-p226r'],
+      ['Vector 9x19', 'Vector 9 x 19', 1, 'gunsmith-vector-9x19'], ['AKM', 'AKM', 26, 'gunsmith-akm'], ['M4A1', 'M4A1', 26, 'gunsmith-m4a1'], ['AS VAL', 'AS VAL', 29, 'gunsmith-as-val']
+    ];
+    const masterTasks = [
+      ['HK 416A5', 'gunsmith-master-part-1'], ['RSASS', 'gunsmith-master-part-2'], ['DVL-10', 'gunsmith-master-part-3'],
+      ['AK-102', 'gunsmith-master-part-4'], ['AKMN', 'gunsmith-master-part-5'], ['SVDS', 'gunsmith-master-part-6'],
+      ['M1A', 'gunsmith-master-part-7'], ['M700', 'gunsmith-master-part-8'], ['M4A1', 'gunsmith-master-part-9'],
+      ['Mk47', 'gunsmith-master-part-10'], ['SR-25', 'gunsmith-master-part-11'], ['T-5000M', 'gunsmith-master-part-12'],
+      ['PKP', 'gunsmith-master-part-13']
+    ];
+    const sourceIndex = 'https://tarkovhub.fr/dossiers/quetes-armurier';
+    const guideUrl = 'https://tarkov.dev/tasks/';
+    const cardMarkup = (title, target, number, level, chain, taskSlug) => `<details class="task-card" data-search="${(title + ' ' + target + ' ' + chain).toLowerCase()}"><summary><span class="task-num">${number}</span><span><span class="task-title">${title}</span><span class="task-target">TARGET: ${target}</span></span><span class="task-level">LVL ${level}+</span></summary><div class="task-content"><p><strong>Build target:</strong> ${target}. Check the task's exact requirements in game; required parts, weight, durability, ergonomics, and recoil thresholds must all match together.</p><ol><li>Start with the correct base weapon variant.</li><li>Install each required part and any adapter the task specifies.</li><li>Compare all stats against the current objective; remove unlisted parts if they affect requirements.</li><li>Inspect the completed gun and submit it to Mechanic.</li></ol><a href="https://tarkovforge.web.app/task-guide/${taskSlug}" target="_blank" rel="noreferrer">Open current part list and build steps ↗</a> · <a href="${sourceIndex}" target="_blank" rel="noreferrer">Task chain source ↗</a></div></details>`;
+    document.querySelector('#weaponTasks').innerHTML = weaponTasks.map(([name, gun, level, slug], i) => cardMarkup(`Gunsmith - ${name}`, gun, String(i + 1).padStart(2, '0'), level, 'weapon task', slug)).join('');
+    document.querySelector('#masterTasks').innerHTML = masterTasks.map(([gun, slug], i) => cardMarkup(`Gunsmith Master - Part ${i + 1}`, gun, String(i + 1).padStart(2, '0'), 40, `part ${i + 1} ${i ? 'part ' + i : 'starting task'}`, slug)).join('');
+    const taskSearch = document.querySelector('#taskSearch');
+    const taskCards = [...document.querySelectorAll('.task-card')];
+    function filterTasks() {
+      const query = taskSearch.value.trim().toLowerCase(); let visible = 0;
+      taskCards.forEach(card => { const match = card.dataset.search.includes(query); card.hidden = !match; if (match) visible++; });
+      document.querySelector('#taskCount').textContent = `${visible} / ${taskCards.length} TASKS`;
+      document.querySelector('#taskEmpty').style.display = visible ? 'none' : 'block';
+      document.querySelector('#standardHeading').closest('.task-section').hidden = !weaponTasks.some(task => task.join(' ').toLowerCase().includes(query));
+      document.querySelector('#masterHeading').closest('.task-section').hidden = !masterTasks.some((gun, i) => (`Gunsmith Master Part ${i + 1} ${gun} part ${i + 1}`).toLowerCase().includes(query));
+    }
+    taskSearch.addEventListener('input', filterTasks);
+    const menuToggle = document.querySelector('#menuToggle');
+    const primaryNav = document.querySelector('#primaryNav');
+    menuToggle.addEventListener('click', () => {
+      const open = menuToggle.getAttribute('aria-expanded') !== 'true';
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+      primaryNav.classList.toggle('open', open);
+    });
+    primaryNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Open navigation');
+      primaryNav.classList.remove('open');
+    }));
+    filterTasks();
+  </script>
+</body>
+</html>
