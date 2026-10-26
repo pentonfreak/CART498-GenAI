@@ -1,50 +1,120 @@
 const maps = [
-  {name:'Customs', code:'CSTM // 001', type:'beginner', tag:'MOST PLAYED', extracts:12, difficulty:'Moderate', best:'First raids', blurb:'An industrial sprawl with long sightlines, tight dorms, and more than one way to cross the river.'},
-  {name:'Shoreline', code:'SHRL // 002', type:'pvp', tag:'PVP HEAVY', extracts:14, difficulty:'Hard', best:'Long range', blurb:'A wide coastal map where patience pays off. Learn the resort approaches before you chase the loot.'},
-  {name:'Factory', code:'FCTY // 003', type:'pvp', tag:'CLOSE QUARTERS', extracts:5, difficulty:'Hard', best:'Fast XP', blurb:'Small, loud, and immediate. Bring a plan for the first thirty seconds — then adapt.'},
-  {name:'Woods', code:'WDS // 004', type:'beginner', tag:'LOW PROFILE', extracts:16, difficulty:'Moderate', best:'Scav runs', blurb:'A forest of hidden angles and open fields. Compass discipline is your best teammate.'},
-  {name:'Reserve', code:'RSRV // 005', type:'pvp', tag:'HIGH VALUE', extracts:13, difficulty:'Hard', best:'Experienced', blurb:'Underground bunkers, raiders, and a one-way train. Reserve rewards players who know their exits.'},
-  {name:'Ground Zero', code:'GRND // 006', type:'beginner', tag:'START HERE', extracts:9, difficulty:'Easy', best:'New players', blurb:'A compact city map made for learning the rhythm of a raid without getting lost.'}
+  { name: 'Customs', code: 'CSTM // 001', type: 'beginner', tag: 'MOST PLAYED', difficulty: 'Moderate', best: 'First raids', blurb: 'An industrial map split by the river, with Dorms, the Stronghold, and long crossings between them.', poi: ['Big Red', 'Dorms', 'New Gas Station', 'Stronghold', 'ZB-1011'], extracts: ['Crossroads', 'Trailer Park', 'ZB-013 (switch and key)', 'Old Gas Station (conditional)', 'ZB-1011', 'Dorms V-Ex (paid)', 'Railroad Passage (flare)', 'Railway to Reserve'], source: 'https://tarkov.help/en/map/customs/extractions', art: 'customs' },
+  { name: 'Shoreline', code: 'SHRL // 002', type: 'pvp', tag: 'LONG SIGHTLINES', difficulty: 'Hard', best: 'Long range', blurb: 'A broad coastal map built around the Health Resort, with exposed routes between its outer landmarks.', poi: ['Health Resort', 'Pier', 'Weather Station', 'Power Station', 'Village'], extracts: ['Path to Lighthouse', 'Road to Customs', 'Railway Bridge', 'Pier Boat (conditional)', 'Tunnel', 'Road to North V-Ex (paid)', "Climber's Trail (gear requirement)"], source: 'https://tarkov.help/en/map/shoreline/extractions', art: 'shoreline' },
+  { name: 'Factory', code: 'FCTY // 003', type: 'pvp', tag: 'CLOSE QUARTERS', difficulty: 'Hard', best: 'Fast raids', blurb: 'A compact industrial maze. Expect contact near the offices, forklifts, and central corridors.', poi: ['Office', 'Forklifts', 'Glass Hallway', 'Medical Tent', 'Gate 3'], extracts: ['Cellars (key required)', 'Gate 3', 'Gate 0 (key required)', 'Med Tent Gates (key required)', 'Courtyard Gate (conditional)'], source: 'https://tarkov.help/en/map/factory/extractions', art: 'factory' },
+  { name: 'Woods', code: 'WDS // 004', type: 'beginner', tag: 'OPEN TERRAIN', difficulty: 'Moderate', best: 'Scav runs', blurb: 'A forest map with long sightlines around the lake, Sawmill, and central ridgeline.', poi: ['Sawmill', 'USEC Camp', 'Scav Village', 'Military Camp', 'Sniper Rock'], extracts: ['Bridge V-Ex (paid)', 'Northern UN Roadblock', 'ZB-016 (conditional)', 'Outskirts', 'UN Roadblock', 'RUAF Gate', 'ZB-014 (key required)', 'Power Line Passage (flare)'], source: 'https://tarkov.help/en/map/woods/extractions', art: 'woods' },
+  { name: 'Reserve', code: 'RSRV // 005', type: 'pvp', tag: 'BUNKER NETWORK', difficulty: 'Hard', best: 'Experienced', blurb: 'A military base with a dense underground bunker network, exposed courtyards, and a timed train.', poi: ['Dome', 'Queen', 'King', 'Bunker', 'Armored Train'], extracts: ['Cliff Descent (no armor and required item)', 'Sewer Manhole (no backpack)', 'Armored Train (timed)', 'Bunker Hermetic Door (switch)', 'D-2'], source: 'https://tarkov.help/en/map/reserve/extractions', art: 'reserve' },
+  { name: 'Ground Zero', code: 'GRND // 006', type: 'beginner', tag: 'START HERE', difficulty: 'Easy', best: 'New players', blurb: 'A compact city center with the TerraGroup offices, an underground parking area, and close street fights.', poi: ['TerraGroup HQ', 'Concordia', 'Emercom Station', 'Nakatani Basement', 'Pinewood'], extracts: ['Police Cordon V-Ex (paid)', 'Emercom Checkpoint', 'Mira Ave (flare)', 'Nakatani Basement Stairs'], source: 'https://tarkov.help/en/map/ground-zero/extractions', art: 'ground-zero' }
 ];
+
 const grid = document.querySelector('#mapGrid');
 const empty = document.querySelector('#emptyState');
-function render(filter = 'all', query = '') {
-  const shown = maps.filter(map => (filter === 'all' || map.type === filter) && map.name.toLowerCase().includes(query.toLowerCase()));
-  grid.innerHTML = shown.map(map => `<article class="map-card" data-map="${map.name.toLowerCase()}" data-name="${map.name}"><div class="card-map"><span class="card-tag">${map.tag}</span><span class="card-code">${map.code}</span></div><div class="card-body"><h3>${map.name}</h3><p>${map.blurb}</p><div class="card-meta"><span>${map.extracts} EXTRACTS</span><b>OPEN GUIDE ↗</b></div></div></article>`).join('');
-  empty.style.display = shown.length ? 'none' : 'block';
-  document.querySelectorAll('.map-card').forEach(card => card.addEventListener('click', () => openModal(maps.find(map => map.name === card.dataset.name))));
-}
+const search = document.querySelector('#search');
+const difficultyFilter = document.querySelector('#difficultyFilter');
 const modal = document.querySelector('#mapModal');
-function openModal(map) {
-  document.querySelector('#modalTitle').textContent = map.name;
-  document.querySelector('#modalBlurb').textContent = map.blurb;
-  document.querySelector('#modalExtracts').textContent = map.extracts;
-  document.querySelector('#modalDifficulty').textContent = map.difficulty;
-  document.querySelector('#modalBest').textContent = map.best;
-  document.querySelector('#modalCode').textContent = map.code;
-  document.querySelector('#markerInfo').innerHTML = '<span>CLICK A MARKER</span><strong>Explore the map</strong><p>Select an extract, loot spot, or danger marker for field notes.</p>';
-  resetMap();
-  modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
-}
-function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
-document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => { document.querySelector('.filter.active').classList.remove('active'); button.classList.add('active'); render(button.dataset.filter, document.querySelector('#search').value); }));
-document.querySelector('#search').addEventListener('input', event => render(document.querySelector('.filter.active').dataset.filter, event.target.value));
-document.querySelector('#closeModal').addEventListener('click', closeModal);
-modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
-document.addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
 const mapCanvas = document.querySelector('#mapCanvas');
 const mapViewport = document.querySelector('#interactiveMap');
-let scale = 1; let panX = 0; let panY = 0; let dragging = false; let startX = 0; let startY = 0;
-function updateMap(){ mapCanvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`; document.querySelector('#zoomReadout').textContent = `${Math.round(scale * 100)}%`; }
-function resetMap(){ scale = 1; panX = 0; panY = 0; updateMap(); }
-function zoom(delta){ scale = Math.min(2.2, Math.max(.75, scale + delta)); updateMap(); }
+let returnFocus = null;
+
+function render(filter = 'all', query = '') {
+  const term = query.trim().toLowerCase();
+  const difficulty = difficultyFilter.value;
+  const shown = maps.filter(map => {
+    const searchable = [map.name, map.blurb, map.tag, map.best, ...map.poi, ...map.extracts].join(' ').toLowerCase();
+    return (filter === 'all' || map.type === filter) &&
+      (difficulty === 'all' || map.difficulty === difficulty) &&
+      (!term || searchable.includes(term));
+  });
+
+  grid.innerHTML = shown.map(map => `<button class="map-card" type="button" data-map="${map.art}" data-name="${map.name}">
+    <span class="card-map"><span class="card-tag">${map.tag}</span><span class="card-code">${map.code}</span><span class="card-area">${map.poi.slice(0, 3).join(' · ')}</span></span>
+    <span class="card-body"><span class="card-title">${map.name}</span><span class="card-description">${map.blurb}</span><span class="card-meta"><span>${map.extracts.length} PMC EXTRACTS LISTED</span><b>OPEN FIELD INTEL ↗</b></span></span>
+  </button>`).join('');
+  empty.style.display = shown.length ? 'none' : 'block';
+  grid.querySelectorAll('.map-card').forEach(card => card.addEventListener('click', () => openModal(maps.find(map => map.name === card.dataset.name), card)));
+}
+
+function openModal(map, trigger) {
+  if (!map) return;
+  returnFocus = trigger;
+  document.querySelector('#modalTitle').textContent = map.name;
+  document.querySelector('#modalBlurb').textContent = map.blurb;
+  document.querySelector('#modalCode').textContent = map.code;
+  document.querySelector('#modalDifficulty').textContent = map.difficulty;
+  document.querySelector('#modalBest').textContent = map.best;
+  document.querySelector('#modalExtracts').textContent = map.extracts.length;
+  mapCanvas.dataset.map = map.art;
+  mapCanvas.innerHTML = `<div class="schematic-label schematic-one">${map.poi[0]}</div><div class="schematic-label schematic-two">${map.poi[1]}</div><div class="schematic-label schematic-three">${map.poi[2]}</div><div class="schematic-stamp">${map.code}</div>`;
+  document.querySelector('#mapIntel').innerHTML = `<h3>Key locations</h3><ul>${map.poi.map(point => `<li>${point}</li>`).join('')}</ul><h3>PMC extracts</h3><ul>${map.extracts.map(point => `<li>${point}</li>`).join('')}</ul><a href="${map.source}" target="_blank" rel="noreferrer">Check current extract details ↗</a>`;
+  resetMap();
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.querySelector('#closeModal').focus();
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  if (returnFocus?.isConnected) returnFocus.focus();
+}
+
+document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => {
+  const previous = document.querySelector('.filter.active');
+  previous?.classList.remove('active');
+  previous?.setAttribute('aria-pressed', 'false');
+  button.classList.add('active');
+  button.setAttribute('aria-pressed', 'true');
+  render(button.dataset.filter, search.value);
+}));
+search.addEventListener('input', () => render(document.querySelector('.filter.active').dataset.filter, search.value));
+difficultyFilter.addEventListener('change', () => render(document.querySelector('.filter.active').dataset.filter, search.value));
+document.querySelector('#closeModal').addEventListener('click', closeModal);
+modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+document.addEventListener('keydown', event => {
+  if (!modal.classList.contains('open')) return;
+  if (event.key === 'Escape') closeModal();
+  if (event.key === 'Tab') {
+    const focusable = [...modal.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]')];
+    const first = focusable[0]; const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  }
+});
+
+let scale = 1;
+function updateMap() {
+  mapCanvas.style.transform = `scale(${scale})`;
+  document.querySelector('#zoomReadout').textContent = `${Math.round(scale * 100)}%`;
+}
+function resetMap() { scale = 1; updateMap(); }
+function zoom(delta) { scale = Math.min(1.8, Math.max(.8, scale + delta)); updateMap(); }
 document.querySelector('#zoomIn').addEventListener('click', () => zoom(.2));
 document.querySelector('#zoomOut').addEventListener('click', () => zoom(-.2));
 document.querySelector('#resetZoom').addEventListener('click', resetMap);
-mapViewport.addEventListener('wheel', event => { event.preventDefault(); zoom(event.deltaY > 0 ? -.1 : .1); }, {passive:false});
-mapViewport.addEventListener('pointerdown', event => { dragging = true; startX = event.clientX - panX; startY = event.clientY - panY; mapViewport.setPointerCapture(event.pointerId); mapViewport.classList.add('dragging'); });
-mapViewport.addEventListener('pointermove', event => { if (!dragging) return; panX = event.clientX - startX; panY = event.clientY - startY; updateMap(); });
-mapViewport.addEventListener('pointerup', () => { dragging = false; mapViewport.classList.remove('dragging'); });
-document.querySelectorAll('.marker').forEach(marker => marker.addEventListener('click', event => { event.stopPropagation(); document.querySelector('#markerInfo').innerHTML = `<span>${marker.classList[1].toUpperCase()} INTEL</span><strong>${marker.dataset.title}</strong><p>${marker.dataset.info}</p>`; }));
-document.querySelectorAll('.layer-toggle').forEach(toggle => toggle.addEventListener('change', () => { document.querySelectorAll(`.marker.${toggle.dataset.layer}`).forEach(marker => marker.style.display = toggle.checked ? 'grid' : 'none'); }));
+mapViewport.addEventListener('wheel', event => { event.preventDefault(); zoom(event.deltaY > 0 ? -.1 : .1); }, { passive: false });
+
+const menuToggle = document.querySelector('#menuToggle');
+const primaryNav = document.querySelector('#primaryNav');
+menuToggle.addEventListener('click', () => {
+  const open = menuToggle.getAttribute('aria-expanded') !== 'true';
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  primaryNav.classList.toggle('open', open);
+});
+primaryNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', 'Open navigation');
+  primaryNav.classList.remove('open');
+}));
+
+const prepChecks = [...document.querySelectorAll('[data-prep]')];
+try {
+  const saved = JSON.parse(localStorage.getItem('raidline-prep') || '{}');
+  prepChecks.forEach(check => { check.checked = Boolean(saved[check.dataset.prep]); });
+} catch { /* Storage may be disabled; checklist still works for this visit. */ }
+prepChecks.forEach(check => check.addEventListener('change', () => {
+  const state = Object.fromEntries(prepChecks.map(item => [item.dataset.prep, item.checked]));
+  try { localStorage.setItem('raidline-prep', JSON.stringify(state)); } catch { /* Keep the interaction usable without storage. */ }
+}));
+
 render();

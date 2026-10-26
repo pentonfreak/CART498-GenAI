@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Free Escape from Tarkov maps, extracts, loot routes, and raid prep notes." />
+  <meta name="description" content="A free Escape from Tarkov field guide with map callouts, extracts, and raid prep notes." />
   <title>RAIDLINE — Free Tarkov Maps</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,9 +14,9 @@
   <div class="noise"></div>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Raidline home"><span class="brand-mark">+</span><span>RAID<span>LINE</span></span></a>
-    <div class="status"><i></i> LIVE DATABASE <span class="slash">/</span> WIPE 0.16</div>
-    <nav><a href="#maps">Maps</a><a href="#loadout">Raid prep</a><a href="#about">About</a></nav>
-    <button class="menu-btn" aria-label="Open menu">☰</button>
+    <div class="status"><i></i> STATIC FIELD GUIDE <span class="slash">/</span> COMMUNITY DATA</div>
+    <nav id="primaryNav"><a href="#maps">Maps</a><a href="#loadout">Raid prep</a><a href="gunsmith.html">Gunsmith</a><a href="#about">About</a></nav>
+    <button class="menu-btn" id="menuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="primaryNav">☰</button>
   </header>
 
   <main id="top">
@@ -24,7 +24,7 @@
       <div class="hero-copy">
         <p class="eyebrow"><span>01</span> INTEL LIBRARY</p>
         <h1>Know the<br /><em>way out.</em></h1>
-        <p class="intro">Free, no-nonsense Escape from Tarkov maps for planning your next raid. Extract routes, loot zones, and callouts — all in one place.</p>
+        <p class="intro">A free Escape from Tarkov field guide for planning your next raid. Map landmarks, PMC extract lists, and callouts in one place.</p>
         <a class="cta" href="#maps">Browse maps <span>↘</span></a>
       </div>
       <div class="hero-visual" aria-label="Stylized topographic map graphic">
@@ -38,23 +38,23 @@
       </div>
     </section>
 
-    <section class="stats" aria-label="Database stats">
-      <div><strong>12</strong><span>MAPS INDEXED</span></div><div><strong>84</strong><span>EXTRACTS MARKED</span></div><div><strong>1.8k</strong><span>ROUTES PLANNED</span></div><div class="stat-note">UPDATED<br /><b>OCT 2026</b></div>
+    <section class="stats" aria-label="Guide contents">
+      <div><strong>06</strong><span>MAP GUIDES</span></div><div><strong>06</strong><span>MAP-SPECIFIC PMC EXTRACT LISTS</span></div><div><strong>03</strong><span>MAP INTEL TYPES</span></div><div class="stat-note">DATA CHECKED<br /><b>OCT 2026</b></div>
     </section>
 
     <section class="maps-section" id="maps">
-      <div class="section-heading"><div><p class="eyebrow"><span>02</span> FIELD GUIDES</p><h2>Pick your<br /><em>battlefield.</em></h2></div><p class="section-desc">Select a map to see extracts, hotspots, and essential raid notes. Start with the maps you know — or don’t.</p></div>
-      <div class="toolbar"><div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search maps, locations, callouts..." /></div><div class="filters" role="group" aria-label="Filter maps"><button class="filter active" data-filter="all">All maps</button><button class="filter" data-filter="beginner">Beginner</button><button class="filter" data-filter="pvp">PVP heavy</button></div></div>
+      <div class="section-heading"><div><p class="eyebrow"><span>02</span> FIELD GUIDES</p><h2>Pick your<br /><em>battlefield.</em></h2></div><p class="section-desc">Search by map, landmark, or extract, then open a guide for location notes and the current PMC extract list. Start with a map you know — or don’t.</p></div>
+      <div class="toolbar"><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search maps, locations, callouts..." aria-label="Search maps and map intel" /><label class="difficulty-control" for="difficultyFilter">Difficulty <select id="difficultyFilter"><option value="all">Any</option><option>Easy</option><option>Moderate</option><option>Hard</option></select></label></div><div class="filters" role="group" aria-label="Filter maps by play style"><button class="filter active" data-filter="all" aria-pressed="true">All maps</button><button class="filter" data-filter="beginner" aria-pressed="false">Beginner</button><button class="filter" data-filter="pvp" aria-pressed="false">PVP heavy</button></div></div>
       <div class="map-grid" id="mapGrid"></div>
       <p class="empty" id="emptyState">No maps match that search.</p>
     </section>
 
-    <section class="prep" id="loadout"><div class="prep-number">03</div><div><p class="eyebrow">RAID PREP</p><h2>Pack smart.<br /><em>Leave alive.</em></h2></div><div class="prep-checks"><label><input type="checkbox" /> <span>Check your extracts</span></label><label><input type="checkbox" /> <span>Bring a painkiller</span></label><label><input type="checkbox" /> <span>Mark a fallback route</span></label></div><div class="prep-tip"><span>FIELD NOTE</span><p>“The best route is the one you can still remember when the shots start.”</p></div></section>
+    <section class="prep" id="loadout"><div class="prep-number">03</div><div><p class="eyebrow">RAID PREP</p><h2>Pack smart.<br /><em>Leave alive.</em></h2></div><div class="prep-checks"><label><input type="checkbox" data-prep="extracts" /> <span>Check your extracts</span></label><label><input type="checkbox" data-prep="painkiller" /> <span>Bring a painkiller</span></label><label><input type="checkbox" data-prep="fallback" /> <span>Mark a fallback route</span></label></div><div class="prep-tip"><span>FIELD NOTE</span><p>“The best route is the one you can still remember when the shots start.”</p></div></section>
   </main>
 
   <footer id="about"><div class="brand"><span class="brand-mark">+</span><span>RAID<span>LINE</span></span></div><p>A fan-made field guide for Tarkov players.<br />Free to use. Built for the next raid.</p><span class="footer-code">RL-016 / END OF FILE</span></footer>
 
-  <div class="modal" id="mapModal" aria-hidden="true"><div class="modal-card map-viewer"><button class="close" id="closeModal" aria-label="Close map details">×</button><div class="viewer-head"><div><p class="eyebrow" id="modalType">INTERACTIVE MAP // FREE GUIDE</p><h2 id="modalTitle">Customs</h2></div><div class="viewer-code" id="modalCode">CSTM // 001</div></div><p id="modalBlurb"></p><div class="viewer-layout"><div class="interactive-map" id="interactiveMap" tabindex="0" aria-label="Interactive map viewer"><div class="map-canvas" id="mapCanvas"><div class="map-river"></div><div class="map-road road-one"></div><div class="map-road road-two"></div><div class="map-building b-one"></div><div class="map-building b-two"></div><div class="map-building b-three"></div><div class="map-zone zone-one">DORMS</div><div class="map-zone zone-two">OLD GAS</div><div class="map-zone zone-three">WAREHOUSES</div><div class="marker extract" style="left:13%;top:70%" data-title="Crossroads" data-info="Follow the wall south to reach your extract.">E</div><div class="marker extract" style="left:78%;top:20%" data-title="ZB-1011" data-info="Single-use extract. Check the green flare before committing.">E</div><div class="marker loot" style="left:50%;top:37%" data-title="Dorms — Marked Room" data-info="High-value loot, high-risk approach.">L</div><div class="marker loot" style="left:27%;top:30%" data-title="Warehouse Stash" data-info="Low-profile stash near the blue container.">L</div><div class="marker danger" style="left:64%;top:68%" data-title="Scav Hotspot" data-info="Expect contact around the road bend.">!</div></div><div class="map-crosshair">+</div><div class="zoom-controls"><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetZoom" aria-label="Reset map view">⌂</button></div><div class="zoom-readout" id="zoomReadout">100%</div></div><aside class="viewer-side"><div class="layer-title">MAP LAYERS</div><label><input type="checkbox" class="layer-toggle" data-layer="extract" checked /><i class="legend-dot extract-dot"></i> Extracts <b id="extractCount">02</b></label><label><input type="checkbox" class="layer-toggle" data-layer="loot" checked /><i class="legend-dot loot-dot"></i> Loot zones <b>02</b></label><label><input type="checkbox" class="layer-toggle" data-layer="danger" checked /><i class="legend-dot danger-dot"></i> Danger zones <b>01</b></label><div class="marker-info" id="markerInfo"><span>CLICK A MARKER</span><strong>Explore the map</strong><p>Select an extract, loot spot, or danger marker for field notes.</p></div><div class="viewer-stats"><div><span>EXTRACTS</span><strong id="modalExtracts">12</strong></div><div><span>DIFFICULTY</span><strong id="modalDifficulty">Moderate</strong></div><div><span>BEST FOR</span><strong id="modalBest">First raids</strong></div></div></aside></div><p class="map-hint">DRAG TO PAN <span>•</span> SCROLL TO ZOOM <span>•</span> CLICK MARKERS FOR INTEL</p></div></div>
+  <div class="modal" id="mapModal" aria-hidden="true"><div class="modal-card map-viewer" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close" id="closeModal" aria-label="Close map details">×</button><div class="viewer-head"><div><p class="eyebrow" id="modalType">MAP INTEL // SCHEMATIC</p><h2 id="modalTitle">Customs</h2></div><div class="viewer-code" id="modalCode">CSTM // 001</div></div><p id="modalBlurb"></p><div class="viewer-layout"><div class="interactive-map" id="interactiveMap" aria-label="Decorative schematic map, not to scale"><div class="map-canvas" id="mapCanvas"></div><div class="map-crosshair" aria-hidden="true">+</div><div class="zoom-controls"><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="resetZoom" aria-label="Reset schematic view">↺</button></div><div class="zoom-readout" id="zoomReadout" aria-live="polite">100%</div></div><aside class="viewer-side"><div class="layer-title">FIELD INTEL</div><div class="map-intel" id="mapIntel"></div><div class="viewer-stats"><div><span>PMC EXTRACTS</span><strong id="modalExtracts">—</strong></div><div><span>DIFFICULTY</span><strong id="modalDifficulty">—</strong></div><div><span>BEST FOR</span><strong id="modalBest">—</strong></div></div></aside></div><p class="map-hint">SCHEMATIC ONLY · NOT TO SCALE · EXTRACTS VARY BY RAID</p></div></div>
   <script src="script.js"></script>
 </body>
 </html>
