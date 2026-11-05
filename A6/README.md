@@ -57,3 +57,4 @@ Pollinations. n.d. "Pollinations API." Accessed November 3, 2026. https://gen.po
 Pollinations. n.d. "Privacy." Accessed November 3, 2026. https://pollinations.ai/privacy.
 
 
+Presentation Linnk: 
