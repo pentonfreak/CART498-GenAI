@@ -56,5 +56,7 @@ Pollinations. n.d. "Pollinations API." Accessed November 3, 2026. https://gen.po
 
 Pollinations. n.d. "Privacy." Accessed November 3, 2026. https://pollinations.ai/privacy.
 
+Reference Images: Max Hay - https://www.artstation.com/max_v_hay
+
 
 Presentation Link: https://canva.link/ucefup791f64lmg
