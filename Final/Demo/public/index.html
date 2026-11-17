@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Last Signal — Prototype 1</title>
+<link rel="stylesheet" href="/style.css">
+</head><body>
+<div class="grain" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="brand"><span class="brand-mark">✳</span><span>THE LAST SIGNAL <small> / RESEARCH STATION 01</small></span></div>
+  <span class="status"><span class="dot"></span><span id="modeStatus">CHECKING CONNECTION</span></span>
+</header>
+<main class="shell">
+  <section class="hero">
+    <div class="hero-content"><p class="eyebrow">CART 498 / INTERSTELLAR COMMUNICATION EXPERIMENT</p>
+    <h1>Can meaning<br><em>survive the signal?</em></h1>
+    <p class="intro">Choose an idea. An artificial intelligence hides it inside a symbolic message. A second AI tries to recover the meaning—without seeing the original.</p>
+    <div class="mini-tags"><span>01 ENCODE</span><span>02 TRANSMIT</span><span>03 INTERPRET</span></div>
+    </div>
+    <div class="hero-art" aria-hidden="true"><div class="orbit orbit-1"></div><div class="orbit orbit-2"></div><div class="orbit orbit-3"></div><div class="planet"><div class="planet-light"></div></div><div class="arc arc-1"></div><div class="arc arc-2"></div><span class="star s1">✦</span><span class="star s2">✧</span><span class="star s3">·</span><p class="art-label">EARTH / TRANSMISSION 001</p></div>
+  </section>
+  <section class="workspace">
+    <div class="panel compose">
+      <div class="panel-header"><span class="step">01 / INTENT</span><span class="meta">EARTH ORIGIN</span></div>
+      <h2>What should humanity communicate?</h2>
+      <p class="sub">Select one abstract idea. The encoder will never state it directly.</p>
+      <div class="options" id="options" aria-label="Choose a human concept"></div>
+      <div class="mode-select"><div><strong>Generation mode</strong><small id="modeHint">Choose offline demo or live Gemini</small></div><div class="mode-actions"><button id="demoMode" type="button" class="mode-btn active">Offline example</button><button id="liveMode" type="button" class="mode-btn">Live AI</button></div></div>
+      <button class="transmit" id="transmitBtn" type="button"><span>TRANSMIT SELECTED CONCEPT</span><span aria-hidden="true">↗</span></button>
+      <p class="disclaimer">The offline example is handwritten to demonstrate the interface; it is <b>not</b> an AI result.</p>
+    </div>
+    <div class="panel results">
+      <div class="panel-header"><span class="step">02 / SIGNAL</span><span class="meta" id="signalMeta">AWAITING DATA</span></div>
+      <div class="signal-display"><svg id="wave" viewBox="0 0 640 90" preserveAspectRatio="none" role="img" aria-label="Decorative transmission waveform"><path id="wavePath" d="M0 45 L640 45" fill="none" stroke="#e5b771" stroke-width="1.5"/></svg><div class="signal-index">⇄ <span id="signalState">STANDBY</span></div></div>
+      <div class="stage"><span class="stage-label">ENCODED TRANSMISSION</span><p class="signal-text" id="signalText">No message has been transmitted yet. Select an idea on the left to begin the experiment.</p></div>
+      <div class="divider"></div>
+      <div class="panel-header"><span class="step">03 / RECEPTION</span><span class="meta" id="decoderMeta">UNDECODED</span></div>
+      <div class="interpretation"><div><span class="stage-label">RECEIVER'S INTERPRETATION</span><p id="primary" class="primary">—</p></div><div class="two-up"><div><span class="stage-label">EVIDENCE</span><p id="evidence">—</p></div><div><span class="stage-label">ALTERNATIVE READING</span><p id="alternate">—</p></div></div></div>
+      <div class="reveal" id="reveal" hidden><span class="stage-label">HUMAN INTENTION</span><strong id="original">—</strong><p class="compare-note">Did the receiver recover the idea, change its meaning, or imagine something else?</p><button type="button" class="copy-btn" id="copyBtn">Copy this experiment ↗</button></div>
+    </div>
+  </section>
+  <footer><span>PROTOTYPE 01 · TEXT-TO-TEXT EXPERIMENT</span><span>THE DECODER NEVER RECEIVES THE CONCEPT LABEL</span></footer>
+</main>
+<script src="/app.js" defer></script>
+</body></html>
